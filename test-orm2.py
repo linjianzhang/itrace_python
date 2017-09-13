@@ -132,6 +132,20 @@ def get_busi2():
     d = pd.io.sql.read_sql('select a.entity_name,b.* from dep_business_entity a,dep_business_service b where a.entity_id=b.entity_id',db.engine.connect())
     return  d.to_html()
 
+@app.route("/dep/get3")
+def get_busi3():
+    results = BusiEntity.query.all()
+    #print busi
+    #return busi[0].ENTITY_NAME
+    busis= []
+    data = {}
+    for item in results:
+        print item
+        busis.append(item.to_json())
+    data['code'] = 0
+    data['busis'] =  busis 
+    return json.dumps(data)
+
 @app.route("/dep/get")
 def get_busi():
     busi = BusiEntity.query.all()
@@ -150,8 +164,22 @@ class BusiEntity(db.Model):
     MOD_DATE = db.Column(db.Date)
     REMARK = db.Column(db.String(100))
 
+    def to_json(self):
+        json_busi = {
+            'ENTITY_ID': self.ENTITY_ID,
+            'ENTITY_NAME': self.ENTITY_NAME,
+            'DESCRIPTION': self.DESCRIPTION,
+            'CONTACTS': self.CONTACTS,
+            'CATEGORY_BAG': self.CATEGORY_BAG,
+            'DISCOVERY_URLS': self.DISCOVERY_URLS,
+            'STATE': self.STATE,
+            'STAFF_ID': self.STAFF_ID
+        }
+
+        return json_busi
+
     def __repr__(self):
-        return '<BusiEntity %r>' % self.name
+        return '<BusiEntity %r>' % self.ENTITY_NAME
 
 
 
