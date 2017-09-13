@@ -138,13 +138,14 @@ def get_busi3():
     #print busi
     #return busi[0].ENTITY_NAME
     busis= []
-    data = {}
+    #data = {}
     for item in results:
         print item
         busis.append(item.to_json())
-    data['code'] = 0
-    data['busis'] =  busis 
-    return json.dumps(data)
+    #data['code'] = 0
+    #data['busis'] =  busis 
+    #return json.dumps(data)
+    return json.dumps(busis)
 
 @app.route("/dep/get")
 def get_busi():
@@ -173,7 +174,8 @@ class BusiEntity(db.Model):
             'CATEGORY_BAG': self.CATEGORY_BAG,
             'DISCOVERY_URLS': self.DISCOVERY_URLS,
             'STATE': self.STATE,
-            'STAFF_ID': self.STAFF_ID
+            'STAFF_ID': self.STAFF_ID,
+            'MOD_DATE': self.MOD_DATE.strftime('%Y-%m-%d %H:%M:%S')    
         }
 
         return json_busi
