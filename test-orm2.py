@@ -132,6 +132,12 @@ def get_busi2():
     d = pd.io.sql.read_sql('select a.entity_name,b.* from dep_business_entity a,dep_business_service b where a.entity_id=b.entity_id',db.engine.connect())
     return  d.to_html()
 
+@app.route("/dep/get9")
+def get_busi9():
+    entity_id = request.args.get('id')
+    d = pd.io.sql.read_sql('select a.entity_name,b.* from dep_business_entity a,dep_business_service b where a.entity_id=b.entity_id and a.entity_id=%(entityid)s',db.engine.connect(),params={'entityid':entity_id})
+    return  d.to_html()
+
 @app.route("/dep/get3")
 def get_busi3():
     results = BusiEntity.query.all()
